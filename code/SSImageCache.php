@@ -79,7 +79,7 @@ class SSImageCache {
       $this->src_filesize = filesize( $this->image_src );
       $this->cached_filesize = filesize( $this->cached_filename );
       if( $this->src_filesize < $this->cached_filesize ) {
-        return $this->docroot_to_url( $this->image_src );
+        return $this->docroot_to_url( $this->image_src . '?' . sha1_file($this->image_src) );
       }
       return $this->docroot_to_url();
     }
@@ -91,7 +91,7 @@ class SSImageCache {
     $this->src_filesize = filesize( $this->image_src );
     $this->cached_filesize = filesize( $this->cached_filename );
     if( $this->src_filesize < $this->cached_filesize ) {
-      return $this->docroot_to_url( $this->image_src );
+      return $this->docroot_to_url( $this->image_src . '?' . sha1_file($this->image_src) );
     }
     return $this->docroot_to_url();
   }

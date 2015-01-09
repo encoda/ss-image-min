@@ -17,6 +17,7 @@ class CachedImage extends Image {
   }
 
   public function getCachedImage() {
+    $Folder = Folder::find_or_make('cache/images');
     if(!$this->isInDB()) return;
     $image_cache = new SSImageCache();
     $image_cache->cached_image_directory = static::getCacheDirectory();

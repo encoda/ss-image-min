@@ -6,6 +6,8 @@ class SSImageCache {
 
   const memory_value = 128;
 
+  protected static $compress_rate = 85;
+
   /**
    * Stores the image source given for reference
    */
@@ -79,7 +81,7 @@ class SSImageCache {
       $this->src_filesize = filesize( $this->image_src );
       $this->cached_filesize = filesize( $this->cached_filename );
       if( $this->src_filesize < $this->cached_filesize ) {
-        return $this->docroot_to_url( $this->image_src . '?' . sha1_file($this->image_src) );
+        return $this->docroot_to_url( $this->image_src . '?' . md5_file($this->image_src) );
       }
       return $this->docroot_to_url();
     }
@@ -91,7 +93,7 @@ class SSImageCache {
     $this->src_filesize = filesize( $this->image_src );
     $this->cached_filesize = filesize( $this->cached_filename );
     if( $this->src_filesize < $this->cached_filesize ) {
-      return $this->docroot_to_url( $this->image_src . '?' . sha1_file($this->image_src) );
+      return $this->docroot_to_url( $this->image_src . '?' . md5_file($this->image_src) );
     }
     return $this->docroot_to_url();
   }
@@ -209,10 +211,10 @@ class SSImageCache {
     imagecopy( $image_dest, $image_src, 0, 0, 0, 0, $image_width, $image_height );
     switch( $file_mime_as_ext ) {
       case 'jpeg':
-        $created = imagejpeg( $image_dest, $this->cached_filename, 85 );
+        $created = imagejpeg( $image_dest, $this->cached_filename, static::$compress_rate );
         break;
       case 'png':
-        $created = imagepng( $image_dest, $this->cached_filename, 8 );
+        $created = imagepng( $image_dest, $this->cached_filename, floor(static::$compress_rate / 10) );
         break;
       case 'gif':
         $created = imagegif( $image_dest, $this->cached_filename );

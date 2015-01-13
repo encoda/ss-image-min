@@ -1,0 +1,21 @@
+{
+  "name": "encoda/ss-image-min",
+  "description": "Compress and cache images on silverstripe",
+  "type": "silverstripe-module",
+  "homepage": "http://github.com/encoda/ss-image-min",
+  "keywords": ["silverstripe", "image", "cache", "compress"],
+  "license": "MIT",
+  "authors": [
+    {"name": "Encoda", "email": "encoda@encoda.com.br"}
+  ],
+  "support": {
+    "issues": "http://github.com/encoda/ss-image-min/issues"
+  },
+  "require": {
+    "silverstripe/cms": "~3.1",
+    "silverstripe/framework": "~3.1"
+  },
+  "extra": {
+    "installer-name": "ss-image-min"
+  }
+}

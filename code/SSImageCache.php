@@ -4,7 +4,7 @@ ob_start();
 
 class SSImageCache {
 
-  const memory_value = 128;
+  protected static $incresead_memory_limit = '2480M';
 
   protected static $compress_rate = 85;
 
@@ -349,7 +349,7 @@ class SSImageCache {
    */
   protected function set_memory_limit()
   {
-    $this->memory_limit = (int) ini_get('memory_limit');
+    $this->memory_limit = ini_get('memory_limit');
   }
 
   /**
@@ -358,7 +358,7 @@ class SSImageCache {
    */
   protected function increase_memory_limit()
   {
-    ini_set('memory_limit', '2480M');
+    ini_set('memory_limit', static::$incresead_memory_limit);
   }
 
   /**

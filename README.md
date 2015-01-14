@@ -8,7 +8,7 @@ Tested on SilverStrip 3.1
 
 ## Instalation
 
-After installing the module by any of the following methods you must buid you database by visiting http://yoursite.com/dev/build.
+After installing the module by any of the following methods you must build you database by visiting http://yoursite.com/dev/build.
 
 ### Composer
 

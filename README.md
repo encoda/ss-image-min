@@ -64,14 +64,10 @@ Although you can overwrite some of them through your `_config.php`.
 SSImageCache::$compress_rate = 70;
 ```
 
-## Tasks
-
-If you want to manually generate the compreessed cache version of all your `Image` instances instead of waiting for them to be automatically and individually generated, just access [http://yoursite/dev/tasks/CacheImageTask](yoursite/tasks/CacheImageTask) and wait until it finishes the process.
-
 ## Troubleshooting
 
 If you experiment terrible white screens of death after installing the module, your server might be running out of memory while trying to create several compressed cache image files at once.
-Try out increasing your server's memory limit in its php.ini file ou simply generate the cache images by running the `CacheImageTask` instead of letting it generate the files automatically.
+Try out increasing your server's memory limit in its php.ini file.
 
 ## License (MIT)
 

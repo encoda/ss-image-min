@@ -25,8 +25,10 @@ Once the module is installed, a compressed cache version of each Silverstripe `I
 ### Example
 
 mysite/code/NarcissisticTeenager.php
+
 ``` php
 <?php
+
 NarcissisticTeenager extends DataObject {
     ...
     private static $many_many = array(
@@ -36,11 +38,12 @@ NarcissisticTeenager extends DataObject {
     public function FirstSelfie() {
         return $this->Selfies()->First();
     }
-  ...
+    ...
 }
 ```
 
 themes/autinpack/templates/Page.ss
+
 ``` ss
 <% with $SomeNarcissisticTeenager %>
     <% loop $Selfies %>

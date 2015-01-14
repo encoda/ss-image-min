@@ -7,15 +7,19 @@ SS-image-min is a Silverstripe module for image compressing and server-side cach
 Tested on SilverStrip 3.1
 
 ## Instalation
+
 After installing the module by any of the following methods you must buid you database by visiting http://yoursite.com/dev/build.
 
 ### Composer
+
 Soon....
 
 ### Github
+
 Navigate to the root directory of your SilverStripe application and execute `git clone https://github.com/encoda/ss-image-min.git`
 
 ### Manually
+
 Download [this zip file](https://github.com/encoda/ss-image-min/zipball/master) and extract it in your SilverStripe root directory.
 
 ## Usage
@@ -58,16 +62,26 @@ SS-image-min doesn't require any configuration.
 Although you can overwrite some of them through your `_config.php`.
 
 ### Compress Rate
+
 **Default:** `80`
+
 ```
 <?php
+
 SSImageCache::$compress_rate = 70;
 ```
 
-## Troubleshooting
+### Increasead Memory Limit
 
-If you experiment terrible white screens of death after installing the module, your server might be running out of memory while trying to create several compressed cache image files at once.
-Try out increasing your server's memory limit in its php.ini file.
+Generating compressed images uses a lot more than the PHP is normally allowed to use. So, by default, SS-image-min increases its memory limit temporarily during the compression processes.
+
+**Default:** '2480M'
+
+```
+<?php
+
+SSImageCache::$increased_memory_limit = '128M';
+```
 
 ## License (MIT)
 

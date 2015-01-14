@@ -4,7 +4,7 @@ ob_start();
 
 class SSImageCache {
 
-  protected static $incresead_memory_limit = '2480M';
+  protected static $increased_memory_limit = '2480M';
 
   protected static $compress_rate = 85;
 

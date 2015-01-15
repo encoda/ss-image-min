@@ -12,7 +12,19 @@ After installing the module by any of the following methods you must build you d
 
 ### Composer
 
-Soon....
+Create a composer.json file:
+
+``` json
+    {
+        "require" : {
+            "encoda/ss-image-min": "0.0.0"
+        }
+    }
+```
+
+Navigate to your project root and run the install command.
+
+`$ composer install`
 
 ### Github
 

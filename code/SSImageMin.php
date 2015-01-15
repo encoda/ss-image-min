@@ -2,7 +2,7 @@
 
 ob_start();
 
-class SSImageCache {
+class SSImageMin {
 
   public static $increased_memory_limit = '2480M';
 

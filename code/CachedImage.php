@@ -1,11 +1,7 @@
 <?php
 
 class CachedImage extends Image {
-  const cached_image_directory = '/cache/images';
-
-  public static function getCacheDirectory() {
-    return ASSETS_PATH . static::cached_image_directory;
-  }
+  public static $image_directory = '/home/alexandre/workspace/autinpack/assets/cache/images';
 
   public function RelativeLink() {
     return $this->getCachedImage();
@@ -17,15 +13,38 @@ class CachedImage extends Image {
   }
 
   public function getCachedImage() {
-    $Folder = Folder::find_or_make('cache/images');
-    $image_cache = new SSImageCache();
-    $image_cache->cached_image_directory = static::getCacheDirectory();
+    if (!file_exists(static::$image_directory))
+      mkdir(static::$image_directory, 0777, true);
+    $image_cache = new SSImageMin();
+    $image_cache->cached_image_directory = static::$image_directory;
 
     if ($this->isInDB()) {
       return $image_cache->cache($this->getFullPath());
     } else {
-      if (!$this->fileName) return;
+      if (!$this->exists()) return;
       return $image_cache->cache(Director::baseFolder() . '/' . $this->fileName);
+    }
+  }
+
+  public function deleteFiles($target = null) {
+    if($target == null)
+      $target = static::$image_directory;
+
+    if(file_exists($target)) {
+      $files = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($target, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+      );
+
+      foreach ($files as $fileinfo) {
+          $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+          $todo($fileinfo->getRealPath());
+      }
+
+      if(rmdir($target))
+        echo $target . ' Successfully removed';
+    } else {
+      echo 'Nothing to delete';
     }
   }
 

@@ -358,7 +358,7 @@ class SSImageCache {
    */
   protected function increase_memory_limit()
   {
-    ini_set('memory_limit', static::$incresead_memory_limit);
+    ini_set('memory_limit', static::$increased_memory_limit);
   }
 
   /**

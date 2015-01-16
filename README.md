@@ -95,6 +95,20 @@ Generating compressed images uses a lot more than the PHP is normally allowed to
 SSImageCache::$increased_memory_limit = '128M';
 ```
 
+## Cached Image Directory
+
+Change the directory where the generated cached images are saved into.
+
+**Default:** 'ASSETS_PATH . /cache/images'
+
+```
+<?php
+
+SSImageCache::$image_directory = '/home/user/workspace/project/assets/cached_images';
+```
+
+**Important:** The chosen directory must have write rights.
+
 ## License (MIT)
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR

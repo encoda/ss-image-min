@@ -9,7 +9,6 @@ class SSDeleteImageCacheTask extends BuildTask {
   protected $enabled = true;
 
   function run($request) {
-    $image = new CachedImage();
-    $image->deleteFiles();
+    SSImageMin::delete_cache_files();
   }
 }

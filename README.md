@@ -6,7 +6,7 @@ SS-image-min is a Silverstripe module for image compressing and server-side cach
 
 Tested on SilverStrip 3.1
 
-## Instalation
+## Installation
 
 After installing the module by any of the following methods you must build you database by visiting http://yoursite.com/dev/build.
 

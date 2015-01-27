@@ -16,7 +16,7 @@
     "issues": "http://github.com/encoda/ss-image-min/issues"
   },
   "require": {
-    "silverstripe/framework": "~3.1"
+    "silverstripe/framework": "~3.0"
   },
   "extra": {
     "installer-name": "ss-image-min"

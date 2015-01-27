@@ -17,7 +17,7 @@ Create a composer.json file:
 ``` json
     {
         "require" : {
-            "encoda/ss-image-min": "0.0.0"
+            "encoda/ss-image-min": "0.1.0"
         }
     }
 ```

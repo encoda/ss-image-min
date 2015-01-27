@@ -2,7 +2,9 @@
 
 ob_start();
 
-class SSImageCache {
+class SSImageMin {
+
+  public static $image_directory = '';
 
   public static $increased_memory_limit = '2480M';
 
@@ -68,34 +70,73 @@ class SSImageCache {
    */
   protected $cached_filesize;
 
-  public function cache( $image )
+
+  public static function get_cache_directory($should_create_folder = true)
   {
+    if(empty(static::$image_directory)) {
+      $path = ASSETS_PATH . '/cache/images';
+      static::$image_directory = $path;
+    } else {
+      static::$image_directory;
+    }
+    if (!file_exists(static::$image_directory) && $should_create_folder)
+      mkdir(static::$image_directory, 0755, true);
+    return static::$image_directory;
+  }
+
+  public static function get_cached_image($image)
+  {
+    $instance = new static();
+    $instance->cached_image_directory = static::get_cache_directory();
+
     if( ! is_string( $image ) )
-      $this->error( 'Image source given must be a string.' );
+      $instance->error( 'Image source given must be a string.' );
 
-    $this->image_src = $image;
-    $this->pre_set_class_vars();
+    $instance->image_src = $image;
+    $instance->pre_set_class_vars();
 
-    // If the image hasn't been server up at this point, fetch, compress, cache, and return
-    if( $this->cached_file_exists() ) {
-      $this->src_filesize = filesize( $this->image_src );
-      $this->cached_filesize = filesize( $this->cached_filename );
-      if( $this->src_filesize < $this->cached_filesize ) {
-        return $this->docroot_to_url( $this->image_src . '?' . md5_file($this->image_src) );
+    // If the image hasn't been server up at thi point, fetch, compress, cache, and return
+    if( $instance->cached_file_exists() ) {
+      $instance->src_filesize = filesize( $instance->image_src );
+      $instance->cached_filesize = filesize( $instance->cached_filename );
+      if( $instance->src_filesize < $instance->cached_filesize ) {
+        return $instance->docroot_to_url( $instance->image_src . '?' . md5_file($instance->image_src) );
       }
-      return $this->docroot_to_url();
+      return $instance->docroot_to_url();
     }
-    if($this->is_remote) {
-      $this->download_image();
+    if($instance->is_remote) {
+      $instance->download_image();
     }
-    if( ! $this->fetch_image() )
-      $this->error( 'Could not copy image resource.' );
-    $this->src_filesize = filesize( $this->image_src );
-    $this->cached_filesize = filesize( $this->cached_filename );
-    if( $this->src_filesize < $this->cached_filesize ) {
-      return $this->docroot_to_url( $this->image_src . '?' . md5_file($this->image_src) );
+    if( ! $instance->fetch_image() )
+      $instance->error( 'Could not copy image resource.' );
+    $instance->src_filesize = filesize( $instance->image_src );
+    $instance->cached_filesize = filesize( $instance->cached_filename );
+    if( $instance->src_filesize < $instance->cached_filesize ) {
+      return $instance->docroot_to_url( $instance->image_src . '?' . md5_file($instance->image_src) );
     }
-    return $this->docroot_to_url();
+    return $instance->docroot_to_url();
+  }
+
+  public static function delete_cache_files($target = null) {
+    if($target == null)
+      $target = static::get_cache_directory(false);
+
+    if(file_exists($target)) {
+      $files = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($target, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+      );
+
+      foreach ($files as $fileinfo) {
+          $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+          $todo($fileinfo->getRealPath());
+      }
+
+      if(rmdir($target))
+        echo $target . ' Successfully removed';
+    } else {
+      echo 'Nothing to delete';
+    }
   }
 
   /**

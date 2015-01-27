@@ -17,7 +17,7 @@ Create a composer.json file:
 ``` json
     {
         "require" : {
-            "encoda/ss-image-min": "0.0.0"
+            "encoda/ss-image-min": "0.1.0"
         }
     }
 ```
@@ -94,6 +94,20 @@ Generating compressed images uses a lot more than the PHP is normally allowed to
 
 SSImageCache::$increased_memory_limit = '128M';
 ```
+
+## Cached Image Directory
+
+Change the directory where the generated cached images are saved into.
+
+**Default:** 'ASSETS_PATH . /cache/images'
+
+```
+<?php
+
+SSImageCache::$image_directory = '/home/user/workspace/project/assets/cached_images';
+```
+
+**Important:** The chosen directory must have write rights.
 
 ## License (MIT)
 

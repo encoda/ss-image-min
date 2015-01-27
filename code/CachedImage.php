@@ -1,11 +1,6 @@
 <?php
 
 class CachedImage extends Image {
-  const cached_image_directory = '/cache/images';
-
-  public static function getCacheDirectory() {
-    return ASSETS_PATH . static::cached_image_directory;
-  }
 
   public function RelativeLink() {
     return $this->getCachedImage();
@@ -17,15 +12,11 @@ class CachedImage extends Image {
   }
 
   public function getCachedImage() {
-    $Folder = Folder::find_or_make('cache/images');
-    $image_cache = new SSImageCache();
-    $image_cache->cached_image_directory = static::getCacheDirectory();
-
     if ($this->isInDB()) {
-      return $image_cache->cache($this->getFullPath());
+      return SSImageMin::get_cached_image($this->getFullPath());
     } else {
-      if (!$this->fileName) return;
-      return $image_cache->cache(Director::baseFolder() . '/' . $this->fileName);
+      if (!$this->exists()) return;
+      return SSImageMin::get_cached_image(Director::baseFolder() . '/' . $this->fileName);
     }
   }
 

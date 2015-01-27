@@ -84,36 +84,39 @@ class SSImageMin {
     return static::$image_directory;
   }
 
-  public static function get_cached_image($image)
-  {
+  public static function get_cached_image($image) {
     $instance = new static();
     $instance->cached_image_directory = static::get_cache_directory();
 
-    if( ! is_string( $image ) )
-      $instance->error( 'Image source given must be a string.' );
+    if (!is_string($image))
+      $instance->error('Image source given must be a string.');
 
     $instance->image_src = $image;
     $instance->pre_set_class_vars();
 
     // If the image hasn't been server up at thi point, fetch, compress, cache, and return
-    if( $instance->cached_file_exists() ) {
+    if ($instance->cached_file_exists()) {
       $instance->src_filesize = filesize( $instance->image_src );
       $instance->cached_filesize = filesize( $instance->cached_filename );
-      if( $instance->src_filesize < $instance->cached_filesize ) {
-        return $instance->docroot_to_url( $instance->image_src . '?' . md5_file($instance->image_src) );
+      if ($instance->src_filesize < $instance->cached_filesize) {
+        return $instance->docroot_to_url($instance->image_src . '?' . md5_file($instance->image_src) );
       }
       return $instance->docroot_to_url();
     }
-    if($instance->is_remote) {
+
+    if ($instance->is_remote) {
       $instance->download_image();
     }
-    if( ! $instance->fetch_image() )
-      $instance->error( 'Could not copy image resource.' );
-    $instance->src_filesize = filesize( $instance->image_src );
-    $instance->cached_filesize = filesize( $instance->cached_filename );
-    if( $instance->src_filesize < $instance->cached_filesize ) {
-      return $instance->docroot_to_url( $instance->image_src . '?' . md5_file($instance->image_src) );
+
+    if (!$instance->fetch_image())
+      $instance->error('Could not copy image resource.');
+
+    $instance->src_filesize = filesize($instance->image_src);
+    $instance->cached_filesize = filesize($instance->cached_filename);
+    if ($instance->src_filesize < $instance->cached_filesize) {
+      return $instance->docroot_to_url($instance->image_src . '?' . md5_file($instance->image_src));
     }
+
     return $instance->docroot_to_url();
   }
 
@@ -276,24 +279,24 @@ class SSImageMin {
    * @param string $url The url to check validate
    * @return string The URL of the image
    */
-  protected function docroot_to_url($src = null)
-  {
-    if( is_null( $src ) ) {
+  protected function docroot_to_url($src = null) {
+    if (is_null($src)) {
       $src = $this->cached_filename;
     }
+
     $image_path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $src);
+
+    if ($this->link_is_broken($image_path))
+      $this->error('Final image URL "' . $image_path . '" is broken');
+
     $image_url = substr($image_path, 1);
-    if($this->link_is_broken($image_url)) {
-      $this->error('Final image URL is broken');
-    }
     return $image_url;
   }
 
   /**
    * Sets up all class variables in one central function.
    */
-  protected function pre_set_class_vars()
-  {
+  protected function pre_set_class_vars() {
     $this->set_file_mime_type();
     $this->set_cached_filename();
     $this->set_memory_limit();
@@ -306,20 +309,23 @@ class SSImageMin {
    * @param string $url The url to check validate
    * @return bool Indicates whether or not the link is broken
    */
-  protected function link_is_broken( $url )
-  {
-    if( ! function_exists( 'curl_init' ) )
-      return false;
-    $ch = curl_init( $url );
-    curl_setopt( $ch,  CURLOPT_RETURNTRANSFER, true );
-    curl_exec( $ch );
-    $http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-    if($http_code == 404) {
+  protected function link_is_broken($url) {
+    if (!function_exists('curl_init')) return false;
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_exec($ch);
+
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($http_code == 404) {
       $broken = true;
     } else {
       $broken = false;
     }
-    curl_close( $ch );
+
+    curl_close($ch);
+
     return $broken;
   }
 

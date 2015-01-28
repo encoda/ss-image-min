@@ -284,7 +284,8 @@ class SSImageMin {
       $src = $this->cached_filename;
     }
 
-    $image_path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $src);
+    $doc_root = rtrim($_SERVER['DOCUMENT_ROOT'], '/');
+    $image_path = str_replace($doc_root, '', $src);
 
     if ($this->link_is_broken($image_path))
       $this->error('Final image URL "' . $image_path . '" is broken');

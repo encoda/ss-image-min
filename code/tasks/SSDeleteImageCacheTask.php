@@ -1,14 +1,16 @@
 <?php
 
-class SSDeleteImageCacheTask extends BuildTask {
+class SSDeleteImageCacheTask extends BuildTask
+{
 
-  protected $title = 'Delete Cached Images';
+    protected $title = 'Delete Cached Images';
 
-  protected $description = 'A class to Delete Cached Images';
+    protected $description = 'A class to Delete Cached Images';
 
-  protected $enabled = true;
+    protected $enabled = true;
 
-  function run($request) {
-    SSImageMin::delete_cache_files();
-  }
+    public function run($request)
+    {
+        SSImageMin::delete_cache_files();
+    }
 }

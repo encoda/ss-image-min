@@ -1,32 +1,34 @@
 <?php
 
-class SSImageCacheTask extends BuildTask {
+class SSImageCacheTask extends BuildTask
+{
 
-  protected $title = 'Caching Images';
+    protected $title = 'Caching Images';
 
-  protected $description = 'A class to Cache Images';
+    protected $description = 'A class to Cache Images';
 
-  protected $enabled = true;
+    protected $enabled = true;
 
-  function run($request) {
-    if (isset($_POST['id'])) {
-      $image = Image::get()->byID($_POST['id']);
-      echo $image->getCachedImage();
-    } elseif (isset($_GET['ids'])) {
-      $ids = array();
-      foreach (Image::get() as $image) {
-        array_push($ids, $image->ID);
-      }
-      echo json_encode($ids);
-    } else {
-      $this->cacheImages();
+    public function run($request)
+    {
+        if (isset($_POST['id'])) {
+            $image = Image::get()->byID($_POST['id']);
+            echo $image->getCachedImage();
+        } elseif (isset($_GET['ids'])) {
+            $ids = array();
+            foreach (Image::get() as $image) {
+                array_push($ids, $image->ID);
+            }
+            echo json_encode($ids);
+        } else {
+            $this->cacheImages();
+        }
     }
-  }
 
-  function cacheImages() {
-    echo '<script type="text/javascript">startCaching()</script>';
-  }
-
+    public function cacheImages()
+    {
+        echo '<script type="text/javascript">startCaching()</script>';
+    }
 }
 
 ?>
